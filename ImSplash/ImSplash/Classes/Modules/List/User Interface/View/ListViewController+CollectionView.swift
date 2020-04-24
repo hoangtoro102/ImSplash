@@ -13,9 +13,9 @@ import UIKit
 extension ListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == downloadCollectionView {
-            return dowList.count // downloadCollection.items.count
+            return dowList.count
         }
-        return favList.count // favCollection.items.count
+        return favList.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -27,17 +27,9 @@ extension ListViewController: UICollectionViewDataSource {
         if collectionView == downloadCollectionView {
             let localItem = dowList[indexPath.item]
             photoCell.configure(with: localItem)
-//            let dItem = downloadCollection.items[indexPath.item]
-//            if let download = dItem.download {
-//                photoCell.configure(with: download)
-//            }
         } else {
             let localItem = favList[indexPath.item]
             photoCell.configure(with: localItem)
-//            let dItem = favCollection.items[indexPath.item]
-//            if let localItem = dItem.localItem {
-//                photoCell.configure(with: localItem)
-//            }
         }
 
         return photoCell
@@ -64,21 +56,10 @@ extension ListViewController: UICollectionViewDelegateFlowLayout {
             let localItem = dowList[indexPath.item]
             height = CGFloat(localItem.height) * width / CGFloat(localItem.width)
             return CGSize(width: width, height: height)
-            
-//            let dItem = downloadCollection.items[indexPath.item]
-//            if let download = dItem.download {
-//                height = CGFloat(download.photo.height) * width / CGFloat(download.photo.width)
-//                return CGSize(width: width, height: height)
-//            }
         } else {
             let localItem = favList[indexPath.item]
             height = CGFloat(localItem.height) * width / CGFloat(localItem.width)
             return CGSize(width: width, height: height)
-//            let dItem = favCollection.items[indexPath.item]
-//            if let localItem = dItem.localItem {
-//                height = CGFloat(localItem.height) * width / CGFloat(localItem.width)
-//                return CGSize(width: width, height: height)
-//            }
         }
     }
 }
@@ -89,19 +70,10 @@ extension ListViewController: WaterfallLayoutDelegate {
         if layout == dlayout {
             let localItem = dowList[indexPath.item]
             return CGSize(width: localItem.width, height: localItem.height)
-//            let dItem = downloadCollection.items[indexPath.item]
-//            if let download = dItem.download {
-//                return CGSize(width: download.photo.width, height: download.photo.height)
-//            }
         } else {
             let localItem = favList[indexPath.item]
             return CGSize(width: localItem.width, height: localItem.height)
-//            let dItem = favCollection.items[indexPath.item]
-//            if let localItem = dItem.localItem {
-//                return CGSize(width: localItem.width, height: localItem.height)
-//            }
         }
-//        return .zero
     }
 }
 extension ListViewController: PhotoCellDelegateForFavorite {
@@ -110,21 +82,47 @@ extension ListViewController: PhotoCellDelegateForFavorite {
             if let indexPath = downloadCollectionView.indexPath(for: photoCell) {
                 let localItem = dowList[indexPath.item]
                 eventHandler?.changeFavorite(id: localItem.id)
-//                let dItem = downloadCollection.items[indexPath.item]
-//                if let download = dItem.download {
-//                    let photo = download.photo
-//                    eventHandler?.changeFavorite(id: photo.identifier, urlRegular: photo.urls[.regular]?.absoluteString ?? "", width: photo.width, height: photo.height)
-//                }
+                updateFavoriteForFav(changedItem: localItem)
             }
         } else {
             if let indexPath = favoriteCollectionView.indexPath(for: photoCell) {
                 let localItem = favList[indexPath.item]
                 eventHandler?.changeFavorite(id: localItem.id)
-//                let dItem = favCollection.items[indexPath.item]
-//                if let localItem = dItem.localItem {
-//                    eventHandler?.changeFavorite(id: localItem.id)
-//                }
+                updateFavoriteForDownloads(changedItem: localItem)
+                if localItem.favorite {
+                    favList.removeAll(where: {$0.id == localItem.id})
+                    favoriteCollectionView.deleteItems(at: [indexPath])
+                }
             }
         }
+    }
+    
+    func updateFavoriteForDownloads(changedItem: TransLocalImage) {
+        for (index, item) in dowList.enumerated() {
+            if item.id == changedItem.id {
+                let indexPath = IndexPath(item: index, section: 0)
+                if let cell = downloadCollectionView.cellForItem(at: indexPath) as? PhotoCell {
+                    var newItem = changedItem
+                    newItem.favorite = !item.favorite
+                    cell.configure(with: newItem)
+                }
+                return
+            }
+        }
+    }
+    
+    func updateFavoriteForFav(changedItem: TransLocalImage) {
+        for (index, item) in favList.enumerated() {
+            if item.id == changedItem.id {
+                let indexPath = IndexPath(item: index, section: 0)
+                if let cell = favoriteCollectionView.cellForItem(at: indexPath) as? PhotoCell {
+                    var newItem = item
+                    newItem.favorite = !item.favorite
+                    cell.configure(with: newItem)
+                }
+                return
+            }
+        }
+        loadData()
     }
 }
