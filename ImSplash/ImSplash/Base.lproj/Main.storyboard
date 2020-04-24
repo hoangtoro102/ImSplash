@@ -140,10 +140,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gTr-Me-MGC">
-                                <rect key="frame" x="0.0" y="807" width="414" height="55"/>
+                                <rect key="frame" x="0.0" y="802" width="414" height="60"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jNr-sr-BPz">
-                                        <rect key="frame" x="24" y="7.5" width="40" height="40"/>
+                                        <rect key="frame" x="24" y="10" width="40" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="40" id="cR9-vr-SmS"/>
                                             <constraint firstAttribute="height" constant="40" id="lf8-dG-eLj"/>
@@ -162,28 +162,28 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_heart" translatesAutoresizingMaskIntoConstraints="NO" id="g8e-w8-71x">
-                                        <rect key="frame" x="358" y="15.5" width="24" height="24"/>
+                                        <rect key="frame" x="358" y="18" width="24" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="8j3-Wg-0CZ"/>
                                             <constraint firstAttribute="width" constant="24" id="Wzu-6h-Nwk"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oGp-8u-bXj">
-                                        <rect key="frame" x="358" y="15.5" width="24" height="24"/>
+                                        <rect key="frame" x="358" y="18" width="24" height="24"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <action selector="touchBtnHeart:" destination="qFL-Ji-2aB" eventType="touchUpInside" id="cZ0-SV-HwC"/>
                                         </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_download" translatesAutoresizingMaskIntoConstraints="NO" id="RKR-Kg-6n2">
-                                        <rect key="frame" x="302" y="15.5" width="24" height="24"/>
+                                        <rect key="frame" x="302" y="18" width="24" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="6NO-j2-ATA"/>
                                             <constraint firstAttribute="width" constant="24" id="fOa-gD-mQb"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZ2-9P-aJg">
-                                        <rect key="frame" x="302" y="15.5" width="24" height="24"/>
+                                        <rect key="frame" x="302" y="18" width="24" height="24"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <action selector="touchBtnDownload:" destination="qFL-Ji-2aB" eventType="touchUpInside" id="Fcq-6n-Dk1"/>
@@ -212,7 +212,7 @@
                                     <constraint firstItem="oGp-8u-bXj" firstAttribute="bottom" secondItem="g8e-w8-71x" secondAttribute="bottom" id="jHK-YB-Iqb"/>
                                     <constraint firstItem="oGp-8u-bXj" firstAttribute="trailing" secondItem="g8e-w8-71x" secondAttribute="trailing" id="jfO-FV-tKQ"/>
                                     <constraint firstItem="LYq-27-iGF" firstAttribute="top" secondItem="Fm4-qd-0WP" secondAttribute="bottom" constant="4" id="pof-Jx-WvW"/>
-                                    <constraint firstAttribute="height" constant="55" id="qYd-Nz-cWr"/>
+                                    <constraint firstAttribute="height" constant="60" id="qYd-Nz-cWr"/>
                                 </constraints>
                             </view>
                         </subviews>

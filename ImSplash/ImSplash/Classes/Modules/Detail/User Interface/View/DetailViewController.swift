@@ -51,7 +51,7 @@ class DetailViewController: UIViewController {
     func bindUserPhoto() {
         guard let photo = self.photo else { return }
         lbName.text = photo.user.name
-        lbOName.text = photo.user.bio
+        lbOName.text = "@\(photo.user.username)"
         downloadImage(with: photo)
     }
 
