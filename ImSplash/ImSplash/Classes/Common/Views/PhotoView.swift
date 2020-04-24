@@ -20,7 +20,8 @@ class PhotoView: UIView {
     @IBOutlet weak var gradientView: GradientView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet var overlayViews: [UIView]!
-
+    @IBOutlet weak var lbPercent: UILabel!
+    
     var showsUsername = true {
         didSet {
             userNameLabel.alpha = showsUsername ? 1 : 0
@@ -60,9 +61,47 @@ class PhotoView: UIView {
         downloadImage(with: photo)
     }
 
+    func configure(with localItem: TransLocalImage) {
+        self.showsUsername = false
+        userNameLabel.text = ""
+        imageView.backgroundColor = .clear
+        if localItem.isDownloading {
+            // Display percentage
+            let percent = localItem.progress * 100
+            lbPercent.isHidden = false
+            lbPercent.text = String(format: "%.1f%%", percent)
+            return
+        }
+        lbPercent.isHidden = true
+        if let path = localItem.localImagePath {
+            let exist = FileManager.default.fileExists(atPath: path)
+            if let imageURL = URL(string: path) {
+                let ex = FileManager.default.fileExists(atPath: imageURL.path)
+                let image = UIImage(contentsOfFile: imageURL.path)
+                imageView.image = image
+            }
+        } else if let urlStr = localItem.urlRegular, let url = URL(string: urlStr) {
+            downloadImage(with: url)
+        } else {
+            imageView.image = nil
+        }
+    }
+    
+    func configure(with download: DownloadRequest) {
+        self.showsUsername = false
+        userNameLabel.text = ""
+        imageView.backgroundColor = .clear
+        // Display percentage
+        let percent = download.progress * 100
+        lbPercent.text = String(format: "%.1f%%", percent)
+    }
+
     private func downloadImage(with photo: UnsplashPhoto) {
         guard let regularUrl = photo.urls[.regular] else { return }
+        downloadImage(with: regularUrl)
+    }
 
+    private func downloadImage(with regularUrl: URL) {
         let url = sizedImageURL(from: regularUrl)
 
         imageDownloader.downloadPhoto(with: url, completion: { [weak self] (image, isCached) in

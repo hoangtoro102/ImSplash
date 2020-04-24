@@ -8,10 +8,13 @@
 
 import UIKit
 import UnsplashPhotoPicker
-
+protocol PhotoCellDelegateForFavorite {
+    func changeFavorite(on photoCell: PhotoCell)
+}
 class PhotoCell: UICollectionViewCell {
 
     // MARK: - Properties
+    var favoriteDelegate: PhotoCellDelegateForFavorite?
 
     static let reuseIdentifier = "PhotoCell"
 
@@ -26,11 +29,25 @@ class PhotoCell: UICollectionViewCell {
         return CheckmarkView()
     }()
 
+    private lazy var heartmarkView: HeartmarkView = {
+        let heart = HeartmarkView()
+        heart.delegate = self
+        return heart
+    }()
+
     override var isSelected: Bool {
         didSet {
             updateSelectedState()
         }
     }
+    
+    var showHeart = false {
+        didSet {
+            heartmarkView.alpha = showHeart ? 1 : 0
+        }
+    }
+    
+    var id: String = ""
 
     // MARK: - Lifetime
 
@@ -46,7 +63,9 @@ class PhotoCell: UICollectionViewCell {
 
     private func postInit() {
         setupPhotoView()
-        setupCheckmarkView()
+//        setupCheckmarkView()
+        setupHeartmarkView()
+        heartmarkView.alpha = showHeart ? 1 : 0
         updateSelectedState()
     }
 
@@ -56,8 +75,8 @@ class PhotoCell: UICollectionViewCell {
     }
 
     private func updateSelectedState() {
-        photoView.alpha = isSelected ? 0.7 : 1
-        checkmarkView.alpha = isSelected ? 1 : 0
+        photoView.alpha = 1 // isSelected ? 0.7 : 1
+        checkmarkView.alpha = 0 // isSelected ? 1 : 0
     }
 
     // Override to bypass some expensive layout calculations.
@@ -69,6 +88,16 @@ class PhotoCell: UICollectionViewCell {
 
     func configure(with photo: UnsplashPhoto) {
         photoView.configure(with: photo)
+    }
+
+    func configure(with localItem: TransLocalImage) {
+        self.id = localItem.id
+        photoView.configure(with: localItem)
+        heartmarkView.setFavorite(localItem.favorite)
+    }
+    
+    func configure(with download: DownloadRequest) {
+        photoView.configure(with: download)
     }
 
     private func setupPhotoView() {
@@ -89,5 +118,21 @@ class PhotoCell: UICollectionViewCell {
             contentView.rightAnchor.constraint(equalToSystemSpacingAfter: checkmarkView.rightAnchor, multiplier: CGFloat(1)),
             contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: checkmarkView.bottomAnchor, multiplier: CGFloat(1))
             ])
+    }
+
+    private func setupHeartmarkView() {
+        heartmarkView.translatesAutoresizingMaskIntoConstraints = false
+        heartmarkView.tintColor = .clear
+        heartmarkView.delegate = self
+        contentView.addSubview(heartmarkView)
+        NSLayoutConstraint.activate([
+            contentView.rightAnchor.constraint(equalToSystemSpacingAfter: heartmarkView.rightAnchor, multiplier: CGFloat(1)),
+            contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: heartmarkView.bottomAnchor, multiplier: CGFloat(1))
+            ])
+    }
+}
+extension PhotoCell: HeartmarkViewDelegate {
+    func didTouchHeart() {
+        favoriteDelegate?.changeFavorite(on: self)
     }
 }

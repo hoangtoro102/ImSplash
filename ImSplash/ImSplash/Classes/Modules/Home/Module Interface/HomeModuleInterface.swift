@@ -7,7 +7,12 @@
 //
 
 import Foundation
+import UnsplashPhotoPicker
 protocol HomeModuleInterface {
     func dataSourceReset()
     func fetchNextPage()
+    
+    func showPhotoDetail(_ photo: UnsplashPhoto)
+    
+    func showDownloadList()
 }

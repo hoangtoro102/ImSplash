@@ -47,6 +47,7 @@ class HomeViewController: UIViewController {
         setupCollectionView()
         setupSpinner()
         
+        print("\(UIApplication.shared.windows[0].rootViewController)")
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -111,7 +112,7 @@ class HomeViewController: UIViewController {
 
     // MARK: - Actions
     @IBAction func touchedBtnDownload(_ sender: Any) {
-        
+        eventHandler?.showDownloadList()
     }
 
     private func scrollToTop() {

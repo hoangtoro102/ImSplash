@@ -46,7 +46,9 @@ extension HomeViewController: UICollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        guard photos.count > 0 else { return }
+        let photo = photos[indexPath.item]
+        eventHandler?.showPhotoDetail(photo)
     }
 }
 

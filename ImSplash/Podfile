@@ -7,4 +7,5 @@ target 'ImSplash' do
 
   # Pods for ImSplash
   pod 'UnsplashPhotoPicker'
+  pod 'RealmSwift'
 end

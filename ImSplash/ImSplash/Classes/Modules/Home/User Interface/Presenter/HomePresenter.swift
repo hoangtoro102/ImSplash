@@ -9,6 +9,7 @@
 import Foundation
 import UnsplashPhotoPicker
 class HomePresenter: NSObject {
+    var wireframe: HomeWireframe?
     var viewInterface: HomeViewInterface?
     var interactor: HomeInteractorInput?
 }
@@ -19,6 +20,14 @@ extension HomePresenter: HomeModuleInterface {
     
     func fetchNextPage() {
         interactor?.fetchNextPage()
+    }
+    
+    func showPhotoDetail(_ photo: UnsplashPhoto) {
+        wireframe?.presentDetailWireframe(photo)
+    }
+    
+    func showDownloadList() {
+        wireframe?.presentListWireframw()
     }
 }
 extension HomePresenter: HomeInteractorOutput {

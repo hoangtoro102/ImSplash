@@ -119,6 +119,7 @@ class NetworkRequest: ConcurrentOperation {
         request.httpMethod = method.rawValue
 
         let session = URLSession.shared
+        
         task = session.dataTask(with: request, completionHandler: { (data, response, error) in
             self.processResponse(response, data: data, error: error)
         })

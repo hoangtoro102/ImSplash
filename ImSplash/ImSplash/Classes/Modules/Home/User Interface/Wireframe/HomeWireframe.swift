@@ -8,8 +8,11 @@
 
 import Foundation
 import UIKit
+import UnsplashPhotoPicker
 class HomeWireframe: NSObject {
     var rootWireframe: RootWireframe?
+    var detailWireframe: DetailWireframe?
+    var listWireframe: ListWireframe?
     var presenter: HomePresenter?
     var homeViewController: HomeViewController?
     
@@ -18,5 +21,13 @@ class HomeWireframe: NSObject {
         viewController.eventHandler = presenter
         presenter?.viewInterface = viewController
         rootWireframe?.showRootViewController(viewController, inWindow: window)
+    }
+    
+    func presentDetailWireframe(_ photo: UnsplashPhoto) {
+        detailWireframe?.presentDetailInterface(photo)
+    }
+    
+    func presentListWireframw() {
+        listWireframe?.presentListInterface()
     }
 }

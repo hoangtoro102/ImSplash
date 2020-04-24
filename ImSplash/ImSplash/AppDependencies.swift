@@ -32,6 +32,39 @@ class AppDependencies {
         homeWireframe.presenter = homePresenter
         homeWireframe.rootWireframe = rootWireframe
         
+        homePresenter.wireframe = homeWireframe
         homePresenter.interactor = homeInteractor
+        
+        // MARK: Detail Module
+        let dataManager = DataManager()
+        let downloadManager = DownloadManager()
+        
+        let detailWireframe = DetailWireframe()
+        let detailInteractor = DetailInteractor(dataManager: dataManager, downloadManager: downloadManager)
+        let detailPresenter = DetailPresenter()
+        
+        detailInteractor.output = detailPresenter
+        
+        detailWireframe.presenter = detailPresenter
+        detailWireframe.rootWireframe = rootWireframe
+        
+        detailPresenter.interactor = detailInteractor
+        
+        homeWireframe.detailWireframe = detailWireframe
+        
+        // MARK: List Module
+        let listWireframe = ListWireframe()
+        let listInteractor = ListInteractor(dataManager: dataManager, downloadManager: downloadManager)
+        let listPresenter = ListPresenter()
+        
+        listInteractor.output = listPresenter
+        
+        listWireframe.presenter = listPresenter
+        listWireframe.rootWireframe = rootWireframe
+        
+        listPresenter.interactor = listInteractor
+        listPresenter.wireframe = listWireframe
+        
+        homeWireframe.listWireframe = listWireframe
     }
 }
